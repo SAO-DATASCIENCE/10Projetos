@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let visitas = localStorage.getItem("portfolio_visitas");
       
       if (!visitas) {
-        visitas = 125; // Número inicial para o portfólio começar com visualizações
+        visitas = 13; // Número inicial para o portfólio começar com visualizações
       } else {
         visitas = parseInt(visitas) + 1;
       }
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       contadorElemento.innerText = visitas.toLocaleString("pt-BR");
     } catch (e) {
       // Fallback caso o navegador bloqueie o localStorage
-      contadorElemento.innerText = "125";
+      contadorElemento.innerText = "13";
     }
   }
 
