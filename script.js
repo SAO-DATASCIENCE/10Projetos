@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
     try {
-      // Pega o valor atual do contador salvo no navegador ou inicia em 125
+      // Pega o valor atual do contador salvo no navegador ou inicia em 13
       let visitas = localStorage.getItem("portfolio_visitas");
       
       if (!visitas) {
