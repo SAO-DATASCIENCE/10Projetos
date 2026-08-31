@@ -29,29 +29,4 @@ document.addEventListener("DOMContentLoaded", () => {
       brain.style.transform = `translate(${x}px, ${y}px)`;
     });
   }
-
-// --- CONTADOR DE VISITAS GLOBAL (Alternativo e Estável) ---
-  const contadorElemento = document.getElementById("contador-visitas");
-  if (contadorElemento) {
-    // Usa um serviço de contador global público e livre
-    fetch("https://api.countapi.xyz/hit/sao-datascience/10projetos")
-      .then(async response => {
-        if (!response.ok) {
-          // Se não existir, tenta criar o contador automaticamente
-          await fetch("https://api.countapi.xyz/create?namespace=sao-datascience&key=10projetos&value=1");
-          return { value: 1 };
-        }
-        return response.json();
-      })
-      .then(data => {
-        const valor = data.value !== undefined ? data.value : 1;
-        contadorElemento.innerText = Number(valor).toLocaleString("pt-BR");
-      })
-      .catch(error => {
-        console.error("Erro no contador:", error);
-        contadorElemento.innerText = "1";
-      });
-  }
-
-
 });
