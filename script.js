@@ -30,21 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- CONTADOR DE VISITAS (CountAPI) ---
+// --- CONTADOR DE VISITAS (Alternativa Atualizada) ---
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
-    // ⚠️ SUBSTITUA AQUI PELO SEU USUÁRIO E NOME DO REPOSITÓRIO NO GITHUB:
-    const namespace = "SAO-DATASCIENCE"; 
-    const key = "10Projetos";
+    // Defina uma chave única para o seu site (ex: sidnei-portfolio)
+    const chaveUnica = "SAO-DATASCIENCE/10Projetos";
 
-    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+    fetch(`https://countapi.mileshilliard.com/api/v1/hit/${chaveUnica}`)
       .then(response => response.json())
       .then(data => {
-        contadorElemento.innerText = data.value.toLocaleString("pt-BR");
+        contadorElemento.innerText = Number(data.value).toLocaleString("pt-BR");
       })
       .catch(error => {
         console.error("Erro ao carregar o contador de visitas:", error);
         contadorElemento.innerText = "Indisponível";
       });
   }
+
+
+
+
+
+
+
+
+
+
 });
