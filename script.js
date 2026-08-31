@@ -30,28 +30,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// --- CONTADOR DE VISITAS (Nativo e Estável) ---
+// --- CONTADOR DE VISITAS GLOBAL (CounterAPI) ---
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
-    try {
-      // Pega o valor atual do contador salvo no navegador ou inicia em 13
-      let visitas = localStorage.getItem("portfolio_visitas");
-      
-      if (!visitas) {
-        visitas = 13; // Número inicial para o portfólio começar com visualizações
-      } else {
-        visitas = parseInt(visitas) + 1;
-      }
-      
-      // Salva o novo valor
-      localStorage.setItem("portfolio_visitas", visitas);
-      
-      // Exibe formatado na tela
-      contadorElemento.innerText = visitas.toLocaleString("pt-BR");
-    } catch (e) {
-      // Fallback caso o navegador bloqueie o localStorage
-      contadorElemento.innerText = "13";
-    }
+    // Espaço e chave únicos para o seu portfólio global
+    const workspace = "sidnei";
+    const counterName = "portfolio-views";
+
+    // Faz a chamada para incrementar e buscar o valor global na nuvem
+    fetch(`https://api.counterapi.dev/v1/${workspace}/${counterName}/up`)
+      .then(response => {
+        if (!response.ok) throw new Error("Erro na resposta da API");
+        return response.json();
+      })
+      .then(data => {
+        // Exibe o número global formatado (ex: 1, 2, 3...)
+        contadorElemento.innerText = Number(data.data).toLocaleString("pt-BR");
+      })
+      .catch(error => {
+        console.error("Erro ao carregar o contador global:", error);
+        contadorElemento.innerText = "1";
+      });
   }
 
 
