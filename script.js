@@ -30,22 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// --- CONTADOR DE VISITAS GLOBAL (API v2) ---
+// --- CONTADOR DE VISITAS GLOBAL (API v2 Oficial) ---
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
-    // Namespace e Chave do seu projeto
     const namespace = "SAO-DATASCIENCE"; 
     const key = "10Projetos";
 
-    // Endpoint atualizado da versão 2 da API
+    // URL correta da versão 2
     const url = `https://api.counterapi.dev/v2/${namespace}/${key}/up`;
 
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        // Na v2, o valor geralmente vem na propriedade 'count' ou 'value'
-        const valorAtual = data.count !== undefined ? data.count : (data.value !== undefined ? data.value : 1);
-        contadorElemento.innerText = Number(valorAtual).toLocaleString("pt-BR");
+        // Na v2, o valor atualizado vem dentro de data.value
+        if (data && data.value !== undefined) {
+          contadorElemento.innerText = Number(data.value).toLocaleString("pt-BR");
+        } else if (data && data.data && data.data.value !== undefined) {
+          contadorElemento.innerText = Number(data.data.value).toLocaleString("pt-BR");
+        } else {
+          contadorElemento.innerText = "1";
+        }
       })
       .catch(error => {
         console.error("Erro no contador global:", error);
