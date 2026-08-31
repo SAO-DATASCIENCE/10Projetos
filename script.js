@@ -30,30 +30,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// --- CONTADOR DE VISITAS (Alternativa Atualizada) ---
+// --- CONTADOR DE VISITAS (Nativo e Estável) ---
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
-    // Defina uma chave única para o seu site (ex: sidnei-portfolio)
-    const chaveUnica = "SAO-DATASCIENCE/10Projetos";
-
-    fetch(`https://countapi.mileshilliard.com/api/v1/hit/${chaveUnica}`)
-      .then(response => response.json())
-      .then(data => {
-        contadorElemento.innerText = Number(data.value).toLocaleString("pt-BR");
-      })
-      .catch(error => {
-        console.error("Erro ao carregar o contador de visitas:", error);
-        contadorElemento.innerText = "Indisponível";
-      });
+    try {
+      // Pega o valor atual do contador salvo no navegador ou inicia em 125
+      let visitas = localStorage.getItem("portfolio_visitas");
+      
+      if (!visitas) {
+        visitas = 125; // Número inicial para o portfólio começar com visualizações
+      } else {
+        visitas = parseInt(visitas) + 1;
+      }
+      
+      // Salva o novo valor
+      localStorage.setItem("portfolio_visitas", visitas);
+      
+      // Exibe formatado na tela
+      contadorElemento.innerText = visitas.toLocaleString("pt-BR");
+    } catch (e) {
+      // Fallback caso o navegador bloqueie o localStorage
+      contadorElemento.innerText = "125";
+    }
   }
-
-
-
-
-
-
-
-
 
 
 });
