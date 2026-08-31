@@ -30,29 +30,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// --- CONTADOR DE VISITAS GLOBAL (API v2 Oficial) ---
+// --- CONTADOR DE VISITAS GLOBAL (Alternativo e Estável) ---
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
-    const namespace = "SAO-DATASCIENCE"; 
-    const key = "10Projetos";
-
-    // URL correta da versão 2
-    const url = `https://api.counterapi.dev/v2/${namespace}/${key}/up`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        // Na v2, o valor atualizado vem dentro de data.value
-        if (data && data.value !== undefined) {
-          contadorElemento.innerText = Number(data.value).toLocaleString("pt-BR");
-        } else if (data && data.data && data.data.value !== undefined) {
-          contadorElemento.innerText = Number(data.data.value).toLocaleString("pt-BR");
-        } else {
-          contadorElemento.innerText = "1";
+    // Usa um serviço de contador global público e livre
+    fetch("https://api.countapi.xyz/hit/sao-datascience/10projetos")
+      .then(async response => {
+        if (!response.ok) {
+          // Se não existir, tenta criar o contador automaticamente
+          await fetch("https://api.countapi.xyz/create?namespace=sao-datascience&key=10projetos&value=1");
+          return { value: 1 };
         }
+        return response.json();
+      })
+      .then(data => {
+        const valor = data.value !== undefined ? data.value : 1;
+        contadorElemento.innerText = Number(valor).toLocaleString("pt-BR");
       })
       .catch(error => {
-        console.error("Erro no contador global:", error);
+        console.error("Erro no contador:", error);
         contadorElemento.innerText = "1";
       });
   }
