@@ -30,25 +30,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// --- CONTADOR DE VISITAS GLOBAL (CounterAPI) ---
+// --- CONTADOR DE VISITAS GLOBAL (Definitivo) ---
   const contadorElemento = document.getElementById("contador-visitas");
   if (contadorElemento) {
-    // Espaço e chave únicos para o seu portfólio global
-    const workspace = "sidnei";
-    const counterName = "portfolio-views";
+    const namespace = "SAO-DATASCIENCE"; 
+    const key = "10Projetos";
 
-    // Faz a chamada para incrementar e buscar o valor global na nuvem
-    fetch(`https://api.counterapi.dev/v1/${workspace}/${counterName}/up`)
+    const urlHit = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+    const urlCreate = `https://api.counterapi.dev/v1/${namespace}/${key}/set?count=1`;
+
+    fetch(urlHit)
       .then(response => {
-        if (!response.ok) throw new Error("Erro na resposta da API");
+        if (!response.ok) {
+          return fetch(urlCreate).then(res => res.json());
+        }
         return response.json();
       })
       .then(data => {
-        // Exibe o número global formatado (ex: 1, 2, 3...)
-        contadorElemento.innerText = Number(data.data).toLocaleString("pt-BR");
+        if (data && data.data !== undefined) {
+          contadorElemento.innerText = Number(data.data).toLocaleString("pt-BR");
+        } else if (data && data.count !== undefined) {
+          contadorElemento.innerText = Number(data.count).toLocaleString("pt-BR");
+        } else {
+          contadorElemento.innerText = "1";
+        }
       })
       .catch(error => {
-        console.error("Erro ao carregar o contador global:", error);
+        console.error("Erro no contador global:", error);
         contadorElemento.innerText = "1";
       });
   }
