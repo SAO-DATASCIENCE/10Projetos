@@ -29,4 +29,22 @@ document.addEventListener("DOMContentLoaded", () => {
       brain.style.transform = `translate(${x}px, ${y}px)`;
     });
   }
+
+  // --- CONTADOR DE VISITAS (CountAPI) ---
+  const contadorElemento = document.getElementById("contador-visitas");
+  if (contadorElemento) {
+    // ⚠️ SUBSTITUA AQUI PELO SEU USUÁRIO E NOME DO REPOSITÓRIO NO GITHUB:
+    const namespace = "SAO-DATASCIENCE"; 
+    const key = "10Projetos";
+
+    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+      .then(response => response.json())
+      .then(data => {
+        contadorElemento.innerText = data.value.toLocaleString("pt-BR");
+      })
+      .catch(error => {
+        console.error("Erro ao carregar o contador de visitas:", error);
+        contadorElemento.innerText = "Indisponível";
+      });
+  }
 });
